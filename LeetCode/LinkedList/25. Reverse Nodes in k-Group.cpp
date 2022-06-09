@@ -13,16 +13,35 @@ struct ListNode {
 class Solution {
 public:
     // 翻转一个子链表，并且返回新的头与尾
-    pair<ListNode*, ListNode*> myReverse(ListNode* head, ListNode* tail) {
+    pair<ListNode*, ListNode*> myReverseIteration(ListNode* head, ListNode* tail) {
         ListNode* prev = tail->next;
-        ListNode* p = head;
+        ListNode* curr = head;
         while (prev != tail) {
-            ListNode* nex = p->next;
-            p->next = prev;
-            prev = p;
-            p = nex;
+            ListNode* nex = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = nex;
         }
         return make_pair(tail, head);
+    }
+
+    pair<ListNode*, ListNode*> myReverseInsert(ListNode* head, ListNode* tail) {
+        if (!head || !head->next) {
+            return make_pair(head, tail);
+        }
+
+        ListNode* new_head = nullptr;
+        ListNode* new_tail = head;
+        ListNode* tmp = nullptr;
+        while (head != tail) {
+            tmp = head;
+            head = head->next;
+            tmp->next = new_head;
+            new_head = tmp;
+        }
+        tail->next = new_head;
+        new_head = tail;
+        return make_pair(new_head, new_tail);
     }
 
     ListNode* reverseKGroup(ListNode* head, int k) {
@@ -40,7 +59,7 @@ public:
                 }
             }
             ListNode* nex = tail->next;
-            pair<ListNode*, ListNode*> result = myReverse(head, tail);
+            pair<ListNode*, ListNode*> result = myReverseInsert(head, tail);
             head = result.first;
             tail = result.second;
             // 把子链表重新接回原链表

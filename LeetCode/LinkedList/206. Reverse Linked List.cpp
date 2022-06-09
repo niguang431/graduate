@@ -39,8 +39,8 @@ public:
 
     // 头插法
     ListNode* reverseList_2(ListNode* head) {
-        ListNode* new_head;
-        ListNode* tmp;
+        ListNode* new_head = nullptr;
+        ListNode* tmp = nullptr;
         if (!head || !head->next) {
             return head;
         }
